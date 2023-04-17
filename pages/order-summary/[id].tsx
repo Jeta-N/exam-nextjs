@@ -140,6 +140,7 @@ const RenderCartItems: React.FC<{ cartDetail: CartDetailModel, onDeleted: () => 
                 <h3 className="font-medium text-gray-800">{cartDetail.foodName}</h3>
                 {/* <p className="text-gray-600">Rp.{foodItem.price?.toLocaleString()}</p> */}
                 <p>Quantity: {cartDetail.quantity}</p>
+                {/* Quantity bisa mines */}
             </div>
             <div className="flex items-center mt-4 md:mt-0">
                 <Link href={`/add-to-cart/${cartDetail.foodItemId}`} className="inline-block py-1 px-2 text-xs bg-blue-500 text-white rounded-lg">
