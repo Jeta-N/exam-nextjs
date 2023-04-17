@@ -1233,6 +1233,8 @@ export interface CartDetailModel {
     id?: string | undefined;
     cartId?: string | undefined;
     foodItemId?: string | undefined;
+    foodName?: string | undefined;
+    foodPrice?: number;
     quantity?: number;
 }
 

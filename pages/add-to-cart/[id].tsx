@@ -18,12 +18,10 @@ const FoodItemDisplayItem: React.FC<{
     foodItem: FoodItemDetailModel
 }> = ({ foodItem }) => {
 
+    // Masih salah buat setQuantity kalo udah ada isi di database.
     const [quantity, setQuantity] = useState(1);
     const minQuantity = () => {
         setQuantity((prevQuantity) => prevQuantity - 1);
-        if (quantity <= 1) {
-            setQuantity(1);
-        }
     }
     const addQuantity = () => {
         setQuantity((prevQuantity) => prevQuantity + 1);

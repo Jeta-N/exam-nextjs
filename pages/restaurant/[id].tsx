@@ -3,7 +3,7 @@ import { Title } from '@/components/Title';
 import { Page } from '@/types/Page';
 import { useSwrFetcherWithAccessToken } from '@/functions/useSwrFetcherWithAccessToken';
 import useSwr from 'swr';
-import { CartDetailModel, CartItemModel, FoodItemDataGridModel, FoodItemDetailModel } from '@/functions/swagger/examNextJSClient';
+import { CartDetailModel, CartItemModel, FoodItemDataGridModel } from '@/functions/swagger/examNextJSClient';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
@@ -26,17 +26,18 @@ const FoodItemDisplayItem: React.FC<{
     );
 };
 
-const GetPrice = (foodId: string) => {
-    const fetcher = useSwrFetcherWithAccessToken();
-    const foodItemUri = `/api/be/api/FoodItems/${foodId}`;
-    const { data } = useSwr<FoodItemDetailModel>(foodItemUri, fetcher);
+//Error Get Price
+// const GetPrice = (foodId: string) => {
+//     const fetcher = useSwrFetcherWithAccessToken();
+//     const foodItemUri = `/api/be/api/FoodItems/${foodId}`;
+//     const { data } = useSwr<FoodItemDetailModel>(foodItemUri, fetcher);
 
-    if (!data) {
-        return 0; // return 0 if the data is not loaded yet
-    }
+//     if (!data) {
+//         return 0;
+//     }
 
-    return data.price;
-}
+//     return data.price;
+// }
 
 
 const RenderCheckOut: React.FC<{ cart: CartItemModel }> = ({ cart }) => {
@@ -57,12 +58,13 @@ const RenderCheckOut: React.FC<{ cart: CartItemModel }> = ({ cart }) => {
 
     // Error ga bisa dapet price per foodItem.
     const countPrice = () => {
-        // let totalPrice = 0;  
-        const price = GetPrice("01GY7424FF9B8B1B38831Z8ZAZ");
-        // if (price) {
-        //     total += price
-        // }
-        return price;
+        let totalPrice = 0;
+        data?.forEach((item) => {
+            if (item.foodPrice) {
+                totalPrice += item.foodPrice
+            }
+        });
+        return totalPrice;
     }
 
     const orderSummaryUri = `/order-summary/${cart[0].restaurantId}`
@@ -90,9 +92,14 @@ const CheckOutSection: React.FC = () => {
     if (data === undefined) {
         return <></>
     }
-
+    if (data[0] === undefined) {
+        return <></>
+    }
+    if (data[0].id === undefined) {
+        return <></>
+    }
     return (
-        <RenderCheckOut cart={data}></RenderCheckOut>
+        <RenderCheckOut cart={data} ></RenderCheckOut >
     )
 }
 
